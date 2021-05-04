@@ -2,7 +2,9 @@ import React, {useState} from "react"
 
 let todos = [
   {done: true, text: "First"},
-  {done: false, text: "Second"}
+  {done: false, text: "Second"},
+  {done: false, text: "Third"},
+  {done: false, text: "Fourth"}
 ]
 
 let FILTER_ALL = 0
@@ -11,9 +13,18 @@ let FILTER_ACTIVE = 2
 
 export default function TodoList() {
   let [filter, setFilter] = useState(FILTER_ALL)
+
+  let filteredTodos = todos.filter(todo => {
+    if(filter == FILTER_DONE) {
+      return todo.done
+    } else if(filter == FILTER_ACTIVE) {
+      return !todo.done
+    } else {return todo}
+  })
+
   return <div>
     <ul style={{listStyleType: "none", paddingLeft: 0}}>
-      {todos.map(todo =>
+      {filteredTodos.map(todo =>
         <TodoItem todo={todo}/>
       )}
     </ul>
