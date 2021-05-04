@@ -1,14 +1,20 @@
-import React from "react"
+import React, {useState} from "react"
 
-export default function TodoForm() {
+export default function TodoForm({createTodo}) {
+  let [text, setText] = useState("")
   return <div className="form-inline">
     <input autoComplete="off"
+           onChange={e => setText(e.target.value)}
            name="text"
-           value={""}
+           value={text}
            className="form-control"
     />
     <button type="button"
-            disabled={true}
+            onClick={_ => {
+              createTodo({text})
+              setText("")
+            }}
+            disabled={!text}
             className="btn btn-primary ml-2">
       Add
     </button>

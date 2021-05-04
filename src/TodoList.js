@@ -1,17 +1,10 @@
 import React, {useState} from "react"
 
-let todos = [
-  {done: true, text: "First"},
-  {done: false, text: "Second"},
-  {done: false, text: "Third"},
-  {done: false, text: "Fourth"}
-]
-
 let FILTER_ALL = 0
 let FILTER_DONE = 1
 let FILTER_ACTIVE = 2
 
-export default function TodoList() {
+export default function TodoList({todos}) {
   let [filter, setFilter] = useState(FILTER_ALL)
 
   let filteredTodos = todos.filter(todo => {
