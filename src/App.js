@@ -18,11 +18,26 @@ function App() {
     setTodos([...todos, todo]
     )
   }
+  
+  function removeTodo(text) {
+    setTodos(
+        todos.filter(todo => todo.text != text)
+    )
+  }
+
+  function toggleTodo(text) {
+    setTodos(
+      todos.map(
+      todo => ({...todo, // destructuring, create a copy of each element and changing it if necessary
+        done: todo.text == text ? !todo.done : todo.done})
+      )
+    )
+  }
 
   return <div className="p-3">
-    <TodoForm createTodo={createTodo}/>
+    <TodoForm createTodo={createTodo} />
     <div className="mt-4">
-      <TodoList todos={todos}/>
+      <TodoList todos={todos} removeTodo={removeTodo} toggleTodo={toggleTodo}/>
     </div>
   </div>
 }

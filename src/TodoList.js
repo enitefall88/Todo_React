@@ -4,7 +4,7 @@ let FILTER_ALL = 0
 let FILTER_DONE = 1
 let FILTER_ACTIVE = 2
 
-export default function TodoList({todos}) {
+export default function TodoList({todos, removeTodo, toggleTodo}) {
   let [filter, setFilter] = useState(FILTER_ALL)
 
   let filteredTodos = todos.filter(todo => {
@@ -18,21 +18,21 @@ export default function TodoList({todos}) {
   return <div>
     <ul style={{listStyleType: "none", paddingLeft: 0}}>
       {filteredTodos.map(todo =>
-        <TodoItem todo={todo}/>
+        <TodoItem todo={todo} removeTodo={removeTodo} toggleTodo={toggleTodo}/>
       )}
     </ul>
     <Footer filter={filter} setFilter={setFilter}/>
   </div>
 }
 
-function TodoItem({todo}) {
+function TodoItem({todo, removeTodo, toggleTodo}) {
   return <li style={{textDecoration: todo.done ? "line-through" : "none", cursor: "pointer"}}>
     <div className="form-group">
       <div className="form-check">
-        <input type="checkbox" style={{cursor: "pointer"}} className="form-check-input"/>
+        <input type="checkbox" onChange={_ => toggleTodo(todo.text)} checked={todo.done} style={{cursor: "pointer"}} className="form-check-input"/>
         <span className="form-check-label">
-          <span> {todo.text}</span>
-          <button type="button"
+          <span onClick={_ => toggleTodo(todo.text)}> {todo.text}</span>
+          <button type="button" onClick={_ => removeTodo(todo.text)}
                   className="btn btn-secondary ml-2"
                   style={{lineHeight: 1, padding: "0.125rem .25rem"}}>
             &times;
