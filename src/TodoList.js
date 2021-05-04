@@ -1,23 +1,33 @@
 import React, {useState} from "react"
 
+let todos = [
+  {done: true, text: "First"},
+  {done: false, text: "Second"}
+]
+
+let FILTER_ALL = 0
+let FILTER_DONE = 1
+let FILTER_ACTIVE = 2
+
 export default function TodoList() {
- return <div>
+  let [filter, setFilter] = useState(FILTER_ALL)
+  return <div>
     <ul style={{listStyleType: "none", paddingLeft: 0}}>
-      {[true,true].map(_ =>
-        <TodoItem/>
+      {todos.map(todo =>
+        <TodoItem todo={todo}/>
       )}
     </ul>
-    <Footer/>
+    <Footer filter={filter} setFilter={setFilter}/>
   </div>
 }
 
-function TodoItem({todo, toggleTodo, removeTodo}) {
-  return <li style={{textDecoration: "none", cursor: "pointer"}}>
+function TodoItem({todo}) {
+  return <li style={{textDecoration: todo.done ? "line-through" : "none", cursor: "pointer"}}>
     <div className="form-group">
       <div className="form-check">
         <input type="checkbox" style={{cursor: "pointer"}} className="form-check-input"/>
         <span className="form-check-label">
-          <span> Text</span>
+          <span> {todo.text}</span>
           <button type="button"
                   className="btn btn-secondary ml-2"
                   style={{lineHeight: 1, padding: "0.125rem .25rem"}}>
@@ -34,11 +44,17 @@ function Footer({filter, setFilter}) {
     <p>
       Show:
       {" "}
-      <a href="#all"><b>All</b></a>
+       {filter == FILTER_ALL
+        ? <a href="#all"><b>All</b></a>
+        : <a href="#all" onClick={e => { e.preventDefault(); setFilter(FILTER_ALL) }}>All</a>}
       {", "}
-      <a href="#active"><b>Active</b></a>
+      {filter == FILTER_ACTIVE
+        ? <a href="#active"><b>Active</b></a>
+        : <a href="#active" onClick={e => { e.preventDefault(); setFilter(FILTER_ACTIVE) }}>Active</a>}
       {", "}
-      <a href="#done"><b>Done</b></a>
+      {filter == FILTER_DONE
+        ? <a href="#done"><b>Done</b></a>
+        : <a href="#done" onClick={e => { e.preventDefault(); setFilter(FILTER_DONE) }}>Done</a>}
       </p>
   </div>
 }
