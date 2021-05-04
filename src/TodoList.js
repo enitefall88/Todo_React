@@ -1,4 +1,5 @@
 import React, {useState} from "react"
+import PT from "prop-types"
 
 let FILTER_ALL = 0
 let FILTER_DONE = 1
@@ -18,11 +19,17 @@ export default function TodoList({todos, removeTodo, toggleTodo}) {
   return <div>
     <ul style={{listStyleType: "none", paddingLeft: 0}}>
       {filteredTodos.map(todo =>
-        <TodoItem todo={todo} removeTodo={removeTodo} toggleTodo={toggleTodo}/>
+        <TodoItem key={todo.text} todo={todo} removeTodo={removeTodo} toggleTodo={toggleTodo}/>
       )}
     </ul>
     <Footer filter={filter} setFilter={setFilter}/>
   </div>
+}
+
+TodoList.propTypes = {
+  todos: PT.array.isRequired,
+  removeTodo: PT.func.isRequired,
+  toggleTodo: PT.func.isRequired
 }
 
 function TodoItem({todo, removeTodo, toggleTodo}) {
@@ -43,6 +50,12 @@ function TodoItem({todo, removeTodo, toggleTodo}) {
   </li>
 }
 
+TodoItem.propTypes = {
+  todo: PT.object.isRequired,
+  removeTodo: PT.func.isRequired,
+  toggleTodo: PT.func.isRequired
+}
+
 function Footer({filter, setFilter}) {
   return <div>
     <p>
@@ -61,4 +74,9 @@ function Footer({filter, setFilter}) {
         : <a href="#done" onClick={e => { e.preventDefault(); setFilter(FILTER_DONE) }}>Done</a>}
       </p>
   </div>
+}
+
+Footer.propTypes = {
+  filter: PT.number.isRequired,
+  setFilter: PT.func.isRequired
 }

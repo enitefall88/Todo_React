@@ -1,4 +1,5 @@
 import React, {useState} from "react"
+import PT from "prop-types"
 
 export default function TodoForm({createTodo}) {
   let [text, setText] = useState("")
@@ -19,4 +20,8 @@ export default function TodoForm({createTodo}) {
       Add
     </button>
   </div>
+}
+
+TodoForm.propTypes = {
+  createTodo: PT.func.isRequired
 }
